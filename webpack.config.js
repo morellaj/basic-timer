@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -11,9 +10,6 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    alias: {
-      Colors: path.join(__dirname, 'src/data/colors.json'),
-    },
     extensions: ['.js', '.jsx'],
   },
   devServer: {
@@ -37,19 +33,6 @@ module.exports = {
         test: /\.css/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.(pdf|png|svg|jpg|gif|woff(2)?|ttf)$/,
-        use: [
-          'file-loader',
-        ],
-      },
-      {
-        test: /\.(jpe?g|png|webp)$/,
-        use: [
-          'webp-loader',
-          'file-loader',
-        ],
-      },
     ],
   },
   plugins: [
@@ -58,10 +41,7 @@ module.exports = {
       hash: true,
     }),
     new CopyPlugin([
-      { from: 'assets', to: 'assets' },
       { from: '_redirects', to: '_redirects', toType: 'file' },
-      { from: 'robots.txt', to: 'robots.txt', toType: 'file' },
     ]),
-    new CleanWebpackPlugin(),
   ],
 };
