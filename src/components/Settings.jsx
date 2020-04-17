@@ -11,7 +11,7 @@ export default function Settings({ page, setPage, fizz, setFizz, buzz, setBuzz }
     <Container page={page}>
       <Instructions>
         Please enter a fizz and buzz time in seconds.
-        <strong>Values should be 2 to 10, inclusive.</strong>
+        <strong>  Values should be 2 to 10, inclusive.</strong>
       </Instructions>
       <EntryContainer>
         <SettingEntry text="Fizz:" data={fizz} update={setFizz} />
