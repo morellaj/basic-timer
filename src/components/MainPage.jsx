@@ -9,8 +9,8 @@ import Timer from './Timer';
 // Component
 export default function MainPage() {
   const [page, setPage] = useState('settings');
-  const [fizz, setFizz] = useState(2);
-  const [buzz, setBuzz] = useState(3);
+  const [fizz, setFizz] = useState('');
+  const [buzz, setBuzz] = useState('');
   return (
     <Container>
       <Timer

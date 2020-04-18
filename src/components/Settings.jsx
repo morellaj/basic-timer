@@ -5,6 +5,11 @@ import styled from 'styled-components';
 import SettingEntry from './SettingEntry';
 import NavButton from './NavButton';
 
+export function valueCheck(num) {
+  const value = parseInt(num);
+  return (value >= 2 && value <= 10 && value.toString() === num);
+}
+
 // Component
 export default function Settings({ page, setPage, fizz, setFizz, buzz, setBuzz }) {
   return (
@@ -17,7 +22,12 @@ export default function Settings({ page, setPage, fizz, setFizz, buzz, setBuzz }
         <SettingEntry text="Fizz:" data={fizz} update={setFizz} />
         <SettingEntry text="Buzz:" data={buzz} update={setBuzz} />
       </EntryContainer>
-      <NavButton text="Go to Timer >" update={() => setPage('timer')} />
+      <NavButton
+        text="Go to Timer >"
+        condition={valueCheck(fizz) && valueCheck(buzz)}
+        error="Please set Fizz and Buzz to integers between 2 and 10"
+        update={() => setPage('timer')}
+      />
     </Container>
   );
 }

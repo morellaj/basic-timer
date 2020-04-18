@@ -7,6 +7,7 @@ import NavButton from './NavButton';
 import FizzBuzz from './FizzBuzz';
 
 const initialTime = {
+  deciseconds: 0,
   seconds: 0,
   minutes: 0,
   hours: 0,
@@ -14,30 +15,34 @@ const initialTime = {
 };
 
 export function reducer(state, action) {
-  let { seconds, minutes, hours, paused } = state;
+  let { deciseconds, seconds, minutes, hours, paused } = state;
   if (action.type === 'increment' && !paused) {
-    seconds += 1;
-    if (seconds === 60) {
-      seconds = 0;
-      minutes += 1;
-      if (minutes === 60) {
-        minutes = 0;
-        hours += 1;
-        if (hours === 10) {
-          hours = 0;
+    deciseconds += 1;
+    if (deciseconds >= 10) {
+      deciseconds = 0;
+      seconds += 1;
+      if (seconds >= 60) {
+        seconds = 0;
+        minutes += 1;
+        if (minutes >= 60) {
+          minutes = 0;
+          hours += 1;
+          if (hours >= 10) {
+            hours = 0;
+          }
         }
       }
     }
-    return { seconds, minutes, hours, paused };
+    return { deciseconds, seconds, minutes, hours, paused };
   } if (action.type === 'reset') {
-    return { seconds: 0, minutes: 0, hours: 0, paused: true };
+    return { deciseconds: 0, seconds: 0, minutes: 0, hours: 0, paused: true };
   } if (action.type === 'play' && paused) {
-    return { seconds, minutes, hours, paused: false };
+    return { deciseconds, seconds, minutes, hours, paused: false };
   } if (action.type === 'stop') {
     if (!paused) {
-      return { seconds, minutes, hours, paused: true };
+      return { deciseconds, seconds, minutes, hours, paused: true };
     }
-    return { seconds: 0, minutes: 0, hours: 0, paused: true };
+    return { deciseconds: 0, seconds: 0, minutes: 0, hours: 0, paused: true };
   }
 
   return state;
@@ -49,7 +54,7 @@ export default function Timer({ page, setPage, fizz, buzz }) {
   const [time, setTime] = useReducer(reducer, initialTime);
 
   useEffect(() => {
-    const id = setInterval(() => setTime({ type: 'increment' }), 1000);
+    const id = setInterval(() => setTime({ type: 'increment' }), 100);
     return () => {
       clearInterval(id);
     };
@@ -60,7 +65,12 @@ export default function Timer({ page, setPage, fizz, buzz }) {
   return (
     <Container page={page}>
       <NavButtonContainer>
-        <NavButton text="< Set Times" update={() => setPage('settings')} />
+        <NavButton
+          text="< Set Times"
+          condition={time.paused}
+          error="Please pause before returning to settings"
+          update={() => setPage('settings')}
+        />
       </NavButtonContainer>
       <Label>
         Time Elapsed

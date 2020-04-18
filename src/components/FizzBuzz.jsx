@@ -16,9 +16,9 @@ export default function FizzBuzz({ time, fizz, buzz }) {
 
   return (
     <Container>
-      <Text show={fizzComp && !buzzComp}>Fizz</Text>
-      <Text show={!fizzComp && buzzComp}>Buzz</Text>
-      <Text show={fizzComp && buzzComp}>FizzBuzz</Text>
+      <Text show={fizzComp && !buzzComp}>fizz</Text>
+      <Text show={!fizzComp && buzzComp}>buzz</Text>
+      <Text show={fizzComp && buzzComp}>fizzbuzz</Text>
     </Container>
   );
 }
